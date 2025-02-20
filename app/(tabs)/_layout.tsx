@@ -30,6 +30,32 @@ export default function TabLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="todo/index"
+        options={{
+          title: "Todo",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "list-circle-sharp" : "list-circle-outline"}
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="tut/index"
+        options={{
+          title: "Tutorial",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "medical-sharp" : "medical-outline"}
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

@@ -1,9 +1,9 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   return (
     <View style={styles.main}>
-      <h1>Kiran</h1>
+      <Text>kiran</Text>
     </View>
   );
 }
