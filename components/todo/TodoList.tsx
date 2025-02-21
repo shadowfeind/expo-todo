@@ -2,6 +2,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { TodoType } from "@/app/(tabs)/todo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
 
 export default function TodoList({
   todo,
@@ -12,6 +13,11 @@ export default function TodoList({
   updateTodo: (todo: number) => void;
   removeTodo: (todo: number) => void;
 }) {
+  const [loaded, error] = useFonts({
+    Inter_500Medium,
+  });
+
+  if (!loaded && !error) return null;
   return (
     <View style={styles.todoItem}>
       <Text
@@ -43,6 +49,7 @@ const styles = StyleSheet.create({
   },
   todoText: {
     fontSize: 18,
+    fontFamily: "Inter_500Medium",
   },
   completedText: {
     textDecorationLine: "line-through",

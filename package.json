@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.26.7",
+    "@expo-google-fonts/inter": "^0.2.3",
     "@expo/vector-icons": "^14.0.2",
     "@react-navigation/bottom-tabs": "^7.0.0",
     "@react-navigation/native": "^7.0.0",

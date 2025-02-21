@@ -6,9 +6,12 @@ import {
   TextInput,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import TodoList from "@/components/todo/TodoList";
+import { Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
+import { ThemeContext } from "@/context/ThemeContext";
+import Octicons from "@expo/vector-icons/Octicons";
 
 export type TodoType = {
   id: number;
@@ -18,6 +21,12 @@ export type TodoType = {
 export default function Index() {
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState<TodoType[]>([]);
+  const [loaded, error] = useFonts({
+    Inter_500Medium,
+  });
+  const { theme, colorScheme, setColorScheme } = useContext(ThemeContext);
+
+  if (!loaded && !error) return null;
 
   const addTodo = () => {
     setTodos((prev) => [
@@ -54,6 +63,28 @@ export default function Index() {
         />
         <Pressable onPress={addTodo} style={styles.addButton}>
           <Text style={styles.addButtonText}>Add</Text>
+        </Pressable>
+        <Pressable
+          onPress={() =>
+            setColorScheme(colorScheme === "light" ? "dark" : "light")
+          }
+          style={{ marginLeft: 10 }}
+        >
+          {colorScheme === "dark" ? (
+            <Octicons
+              name="moon"
+              size={36}
+              color={theme.text}
+              selectable={undefined}
+            />
+          ) : (
+            <Octicons
+              name="sun"
+              size={36}
+              color={theme.text}
+              selectable={undefined}
+            />
+          )}
         </Pressable>
       </View>
       <FlatList
@@ -100,6 +131,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     minWidth: 0,
     marginRight: 12,
+    fontFamily: "Inter_500Medium",
   },
   addButton: {
     backgroundColor: "black",
