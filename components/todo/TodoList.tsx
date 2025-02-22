@@ -1,8 +1,15 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  ColorSchemeName,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import React, { useContext } from "react";
 import { TodoType } from "@/app/(tabs)/todo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
+import { ThemeContext } from "@/context/ThemeContext";
 
 export default function TodoList({
   todo,
@@ -13,6 +20,8 @@ export default function TodoList({
   updateTodo: (todo: number) => void;
   removeTodo: (todo: number) => void;
 }) {
+  const { theme, colorScheme } = useContext(ThemeContext);
+  const styles = createStyles(theme, colorScheme);
   const [loaded, error] = useFonts({
     Inter_500Medium,
   });
@@ -33,26 +42,30 @@ export default function TodoList({
   );
 }
 
-const styles = StyleSheet.create({
-  todoItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 10,
-    padding: 10,
-    borderBottomColor: "gray",
-    borderBottomWidth: 1,
-    width: "100%",
-    maxWidth: 1024,
-    marginHorizontal: "auto",
-    pointerEvents: "auto",
-  },
-  todoText: {
-    fontSize: 18,
-    fontFamily: "Inter_500Medium",
-  },
-  completedText: {
-    textDecorationLine: "line-through",
-    color: "gray",
-  },
-});
+function createStyles(theme: any, colorScheme: ColorSchemeName) {
+  return StyleSheet.create({
+    todoItem: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: 4,
+      padding: 10,
+      borderBottomColor: "gray",
+      borderBottomWidth: 1,
+      width: "100%",
+      maxWidth: 1024,
+      marginHorizontal: "auto",
+      pointerEvents: "auto",
+    },
+    todoText: {
+      flex: 1,
+      fontSize: 18,
+      fontFamily: "Inter_500Medium",
+      color: theme.text,
+    },
+    completedText: {
+      textDecorationLine: "line-through",
+      color: "gray",
+    },
+  });
+}
