@@ -7,12 +7,13 @@ import {
   TextInput,
   View,
 } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import TodoList from "@/components/todo/TodoList";
 import { Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
 import { ThemeContext } from "@/context/ThemeContext";
 import Octicons from "@expo/vector-icons/Octicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type TodoType = {
   id: number;
@@ -25,6 +26,34 @@ export default function Index() {
   const [loaded, error] = useFonts({
     Inter_500Medium,
   });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem("todos");
+        if (jsonValue !== null) {
+          setTodos(JSON.parse(jsonValue));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const saveData = async () => {
+      try {
+        const jsonValue = JSON.stringify(todos);
+        await AsyncStorage.setItem("todos", jsonValue);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    saveData();
+  }, [todos]);
+
   const { theme, colorScheme, setColorScheme } = useContext(ThemeContext);
 
   if (!loaded && !error) return null;
