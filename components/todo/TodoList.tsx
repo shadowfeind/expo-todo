@@ -10,6 +10,7 @@ import { TodoType } from "@/app/(tabs)/todo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
 import { ThemeContext } from "@/context/ThemeContext";
+import { useRouter } from "expo-router";
 
 export default function TodoList({
   todo,
@@ -20,6 +21,7 @@ export default function TodoList({
   updateTodo: (todo: number) => void;
   removeTodo: (todo: number) => void;
 }) {
+  const router = useRouter();
   const { theme, colorScheme } = useContext(ThemeContext);
   const styles = createStyles(theme, colorScheme);
   const [loaded, error] = useFonts({
@@ -27,14 +29,21 @@ export default function TodoList({
   });
 
   if (!loaded && !error) return null;
+
+  const handlePress = (id: number) => {
+    router.push(`/todo/${id}`);
+  };
+
   return (
     <View style={styles.todoItem}>
-      <Text
-        style={[styles.todoText, todo.completed && styles.completedText]}
-        onPress={() => updateTodo(todo.id)}
+      <Pressable
+        onPress={() => handlePress(todo.id)}
+        onLongPress={() => updateTodo(todo.id)}
       >
-        {todo.title}
-      </Text>
+        <Text style={[styles.todoText, todo.completed && styles.completedText]}>
+          {todo.title}
+        </Text>
+      </Pressable>
       <Pressable onPress={() => removeTodo(todo.id)}>
         <MaterialIcons name="delete" size={24} color="red" />
       </Pressable>
